@@ -23,6 +23,7 @@ private:
     uint32_t    mCapacity;
     std::string mName;
     std::string mBinPath;
+    DatasetType mType;
 
     bool fileExist(const char *fname);
     bool downloadDatasetIfDoNotExist(const std::string& input_bin, const std::string& dataset_folder, const std::string& dataset_url);

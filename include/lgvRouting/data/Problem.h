@@ -13,10 +13,12 @@ namespace lgv { namespace data {
     class Problem
     {
     public:
-        std::vector<Location>    mPickUp;
-        std::vector<Location>    mDelivery;
-        uint32_t                            mNumberOfVeichles;
-        uint32_t                            mCapacity;
+        Location                    mDepot;
+        std::vector<Location>       mPickUp;
+        std::vector<Location>       mDelivery;
+        std::vector<std::pair<Location, Location>>  mMissions;
+        uint32_t                    mNumberOfVeichles;
+        uint32_t                    mCapacity;
 
         Problem();
         ~Problem();

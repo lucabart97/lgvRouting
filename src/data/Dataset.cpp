@@ -51,12 +51,14 @@ Dataset::load(const DatasetType aType)
         mBinPath    = "P1";
         input_bins  = "/README.P1";
         curl_path   = "https://cloud.hipert.unimore.it/s/53HaWSDKsa3kKNW/download";
+        mType       = aType;
         break;
     
     case DatasetType::P2:
         mBinPath    = "P2";
         input_bins  = "/README.P2";
         curl_path   = "https://cloud.hipert.unimore.it/s/gempDFcdCiBz4g5/download";
+        mType       = aType;
         break;
     
     default:
@@ -141,12 +143,42 @@ Dataset::loadInstance(Problem& aProblem, const uint32_t aIdx)
                 sscanf(tp.c_str(), "%d %d %d %d %d %d %d %d %d %d", &id, &x, &y, &open_tw1, &close_tw1, &open_tw2, &close_tw2, &demand, &service_time, &type);
                 
                 Location l(id, float(x), float(y), demand, open_tw1, close_tw1, open_tw2, close_tw2, service_time);
-                if (type == 0)
-                    aProblem.mDelivery.push_back(l);
-                else 
-                    aProblem.mPickUp.push_back(l);
+
+                if (id == 0) {
+                    aProblem.mDepot = l;
+                    continue;
+                }
+                
+                switch (mType)
+                {
+                case DatasetType::P1:
+                {
+                    if (type == 0)
+                        aProblem.mDelivery.push_back(l);
+                    else 
+                        aProblem.mPickUp.push_back(l);
+                }
+                    break;
+                case DatasetType::P2:
+                {
+                    if (id % 2 == 0)
+                        aProblem.mDelivery.push_back(l);
+                    else 
+                        aProblem.mPickUp.push_back(l);
+                }
+                    break;
+                default:
+                    break;
+                }
             }
             newfile.close();
+
+            for (int i = 0; i < aProblem.mPickUp.size(); ++i) {
+                if (i < aProblem.mDelivery.size()) 
+                    aProblem.mMissions.push_back(std::make_pair(aProblem.mPickUp[i], aProblem.mDelivery[i]));
+                else 
+                    break;
+            }
 
             aProblem.mCapacity              = mCapacity;
             aProblem.mNumberOfVeichles      = mNumOfVehicles;
