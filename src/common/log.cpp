@@ -1,4 +1,6 @@
-#include "common/log.h"
+#include "lgvRouting/common/log.h"
+
+using namespace lgv;
 
 Log::~Log() {
     if (fileLogEnabled)

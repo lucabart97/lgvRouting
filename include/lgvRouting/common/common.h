@@ -1,36 +1,12 @@
 #pragma once
 
 #include <yaml-cpp/yaml.h>
-#include "common/log.h"
+#include <Eigen/Dense>
+#include <cmath>
 
-namespace common{
+#include "lgvRouting/common/log.h"
 
-class Entry{
-    public:
-        int start_node;
-        int end_node;
-        int priority;
-};
-
-class Problem{
-    public:
-        int n_lgv;
-        std::vector<std::vector<int>> cost_matrix;
-        std::vector<common::Entry> mission_list;
-};
-
-class Mission{
-    public:
-        int lgv_id;
-        Entry entry;
-};
-
-class Solution{
-    public:
-        int best_cost;
-        int sol_time;
-        std::vector<common::Mission> solution;
-};
+namespace lgv { namespace common {
 
 /**
  * Load YAML node from file
@@ -38,7 +14,7 @@ class Solution{
  * @return
  */
 inline YAML::Node YAMLloadConf(std::string conf_file) {
-    tkDBG("Loading YAML: "<<conf_file<<"\n");
+    lgvDBG("Loading YAML: "<<conf_file<<"\n");
     return YAML::LoadFile(conf_file);
 }
 
@@ -60,4 +36,4 @@ inline T YAMLgetConf(YAML::Node conf, std::string key, T defaultVal) {
     return val;
 }
 
-}
+}}

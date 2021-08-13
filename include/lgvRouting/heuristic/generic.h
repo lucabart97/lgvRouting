@@ -1,9 +1,10 @@
 #pragma once
 
-#include "common/common.h"
+//#include "lgvRouting/common/common.h"
 
-namespace Heuristic{
+namespace lgv { namespace heuristic {
 
+/*
 class Generic {
     private:
         common::Problem* problem = nullptr;
@@ -20,8 +21,8 @@ class Generic {
         }
 
         bool run(common::Solution* sol){
-            tkASSERT(problem != nullptr)
-            tkASSERT(sol != nullptr)
+            lgvASSERT(problem != nullptr)
+            lgvASSERT(sol != nullptr)
             this->sol = sol;
             return this->runChild();
         }
@@ -30,5 +31,6 @@ class Generic {
             return this->closeChild();
         }
 };
+*/
 
-}
+}}

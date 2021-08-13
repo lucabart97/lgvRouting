@@ -11,28 +11,15 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#define tkMSG(...) { std::stringstream os; os<<__VA_ARGS__; tk::Log::get().log(tk::LogLevel::INFO,  __PRETTY_FUNCTION__, os.str());}
-#define tkWRN(...) { std::stringstream os; os<<__VA_ARGS__; tk::Log::get().log(tk::LogLevel::WARN,  __PRETTY_FUNCTION__, os.str());}
-#define tkDBG(...) { std::stringstream os; os<<__VA_ARGS__; tk::Log::get().log(tk::LogLevel::DEBUG, __PRETTY_FUNCTION__, os.str());}
-#define tkERR(...) { std::stringstream os; os<<__VA_ARGS__; tk::Log::get().log(tk::LogLevel::ERROR, __PRETTY_FUNCTION__, os.str());}
-#define tkASSERT(...)    tk::exceptions::check_error(__FILE__,__FUNCTION__,__LINE__,__VA_ARGS__);
-#define tkFATAL(X)       tk::exceptions::raise_error(__FILE__,__FUNCTION__,__LINE__,X);
+#define lgvMSG(...)     { std::stringstream os; os<<__VA_ARGS__; lgv::Log::get().log(lgv::LogLevel::INFO,  __PRETTY_FUNCTION__, os.str());}
+#define lgvWRN(...)     { std::stringstream os; os<<__VA_ARGS__; lgv::Log::get().log(lgv::LogLevel::WARN,  __PRETTY_FUNCTION__, os.str());}
+#define lgvDBG(...)     { std::stringstream os; os<<__VA_ARGS__; lgv::Log::get().log(lgv::LogLevel::DEBUG, __PRETTY_FUNCTION__, os.str());}
+#define lgvERR(...)     { std::stringstream os; os<<__VA_ARGS__; lgv::Log::get().log(lgv::LogLevel::ERROR, __PRETTY_FUNCTION__, os.str());}
+#define lgvASSERT(...)  lgv::check_error(__FILE__,__FUNCTION__,__LINE__,__VA_ARGS__);
+#define lgvFATAL(X)     lgv::raise_error(__FILE__,__FUNCTION__,__LINE__,X);
 
 
-inline static void check_error(const char *file, const char *funz, int line, bool status, std::string msg = ""){
-    
-    if(status == false){
-        if(msg != "")
-            tkERR(msg+"\n");
-        tkERR("function: "+std::string(funz)+" at "+file+":"+ std::to_string(line)+"\n");
-        throw std::runtime_error("tkAssert");
-    }
-}
-
-inline static void raise_error(const char *file, const char *funz, int line, std::string msg) {
-    tkERR(msg+"\nfunction: "+std::string(funz)+" at "+file+":"+ std::to_string(line)+"\n");
-    throw std::runtime_error("tkFatal");
-}
+namespace lgv {
 
 /**
  * 
@@ -155,4 +142,18 @@ public:
     void log(const LogLevel level, const std::string &pretty, const std::string &args);
 };
 
+inline static void check_error(const char *file, const char *funz, int line, bool status, std::string msg = ""){    
+    if(status == false){
+        if(msg != "")
+            lgvERR(msg+"\n");
+        lgvERR("function: "+std::string(funz)+" at "+file+":"+ std::to_string(line)+"\n");
+        throw std::runtime_error("lgvAssert");
+    }
+}
+
+inline static void raise_error(const char *file, const char *funz, int line, std::string msg) {
+    lgvERR(msg+"\nfunction: "+std::string(funz)+" at "+file+":"+ std::to_string(line)+"\n");
+    throw std::runtime_error("lgvFatal");
+}
+}
 
