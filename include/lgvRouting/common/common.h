@@ -5,7 +5,9 @@
 #include <cmath>
 
 #include "lgvRouting/common/log.h"
+#include "lgvRouting/common/Time.h"
 
+typedef int id_lgv;
 namespace lgv { namespace common {
 
 /**
@@ -32,7 +34,6 @@ inline T YAMLgetConf(YAML::Node conf, std::string key, T defaultVal) {
     if(conf && conf[key]) {
         val = conf[key].as<T>();
     }
-    //std::cout<<"YAML "<<key<<", val: "<<val<<"\n";
     return val;
 }
 

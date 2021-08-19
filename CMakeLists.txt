@@ -14,6 +14,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # suppress preprocessor warning 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLGV_PATH='\"${CMAKE_CURRENT_SOURCE_DIR}/\"'")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic -Wno-deprecated-declarations -Wno-unused-variable")
 
 #-------------------------------------------------------------------------------
@@ -28,9 +29,13 @@ find_package(Eigen3 REQUIRED)
 add_library(common SHARED 
     src/common/common.cpp
     src/common/log.cpp 
+    src/common/CmdParser.cpp
+    src/common/Time.cpp
     src/data/Location.cpp
     src/data/Problem.cpp
     src/data/Dataset.cpp
+    src/data/Mission.cpp
+    src/data/Solution.cpp
 )
 target_include_directories(common PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -41,6 +46,25 @@ target_link_libraries(common
     ${YAML_CPP_LIBRARIES}
 )
 add_library(${PROJECT_NAME}::common ALIAS common)
+
+add_library(heuristic SHARED 
+    src/finder/Finder.cpp
+    src/heuristic/Constructive.cpp
+    src/heuristic/Generic.cpp
+    src/heuristic/LocalSearch.cpp
+    src/heuristic/MultiStart.cpp
+    src/heuristic/DepthLocalSearch.cpp
+    src/heuristic/TabuSearch.cpp
+)
+target_include_directories(heuristic PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include> 
+)
+target_link_libraries(heuristic 
+    Eigen3::Eigen
+    ${YAML_CPP_LIBRARIES}
+)
+add_library(${PROJECT_NAME}::heuristic ALIAS heuristic)
 
 
 #-------------------------------------------------------------------------------
@@ -53,7 +77,7 @@ foreach(cpp ${lgv_package_APPScpp})
 endforeach()
 foreach(app ${lgv_package_APPS})
     add_executable(${app} "app/${app}.cpp")
-    target_link_libraries(${app} ${PROJECT_NAME}::common)
+    target_link_libraries(${app} ${PROJECT_NAME}::common ${PROJECT_NAME}::heuristic)
 endforeach()
 
 #-------------------------------------------------------------------------------
@@ -61,4 +85,4 @@ endforeach()
 #-------------------------------------------------------------------------------
 file(GLOB lgv_package_TESTScpp "app/test/*.cpp")
 add_executable(${PROJECT_NAME}_test "${lgv_package_TESTScpp}")
-target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}::common)
+target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}::common ${PROJECT_NAME}::heuristic)

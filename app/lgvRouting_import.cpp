@@ -10,7 +10,9 @@ int main() {
     if (d.loadInstance(p, 0))
     {
         // do stuff
-        std::cout<<"Caricato problema con "<<p.mMissions.size()<<" missioni.\n";
+        std::cout<<"#######################################################.\n";
+        std::cout<<"# Loaded problem with "<<p.mMissions.size()<<" missions.\n";
+        std::cout<<"#######################################################.\n";
     }
     
     return 0;

@@ -2,17 +2,14 @@
 
 using namespace lgv::data;
 
-Dataset::Dataset()
-{
+Dataset::Dataset(){
 }
 
-Dataset::~Dataset()
-{
+Dataset::~Dataset(){
 }
 
 bool 
-Dataset::fileExist(const char *fname)
-{
+Dataset::fileExist(const char *fname){
     std::ifstream dataFile (fname, std::ios::in | std::ios::binary);
     if(!dataFile)
         return false;
@@ -42,8 +39,7 @@ Dataset::downloadDatasetIfDoNotExist(const std::string& input_bin, const std::st
 }
 
 bool
-Dataset::load(const DatasetType aType) 
-{
+Dataset::load(const DatasetType aType) {
     std::string input_bins, curl_path;
     switch (aType)
     {
@@ -101,10 +97,7 @@ Dataset::load(const DatasetType aType)
             case 8:
             {
                 std::string tmp     = tp.substr(tp.find_first_of(':') + 1, tp.length());
-                if (tmp.compare("unlimited") == 0)
-                    mNumOfVehicles  = std::numeric_limits<uint32_t>::max();
-                else
-                    mNumOfVehicles  = std::atoi(tp.substr(tp.find_first_of(':') + 1, tp.length()).c_str());
+                mNumOfVehicles = 10;
             }
                 break;
             
@@ -120,18 +113,17 @@ Dataset::load(const DatasetType aType)
         newfile.close();   //close the file object.
     }
 
-    std::cout<<"Loaded "<<mName<<" dataset:"<< 
+    /*std::cout<<"Loaded "<<mName<<" dataset:"<< 
                "\nVRP instances:\t\t"<<mNumOfInstances<<
                "\nNr. of Depots:\t\t"<<mNumOfDepos<<
                "\nNr. of Stops:\t\t"<<mNumOfStops<<
-               "\nCapacity of vehicles:\t"<<mCapacity<<"\n";
+               "\nCapacity of vehicles:\t"<<mCapacity<<"\n";*/
 
     return true;
 }
 
 bool
-Dataset::loadInstance(Problem& aProblem, const uint32_t aIdx)
-{
+Dataset::loadInstance(Problem& aProblem, const uint32_t aIdx){
     if ((aIdx + 1) < mNumOfInstances) {
         std::fstream newfile;
         newfile.open(mBinPath + "/" + std::to_string(aIdx + 1) + mBinPath + ".DAT", std::ios::in);
@@ -175,7 +167,7 @@ Dataset::loadInstance(Problem& aProblem, const uint32_t aIdx)
 
             for (int i = 0; i < aProblem.mPickUp.size(); ++i) {
                 if (i < aProblem.mDelivery.size()) 
-                    aProblem.mMissions.push_back(std::make_pair(aProblem.mPickUp[i], aProblem.mDelivery[i]));
+                    aProblem.mMissions.push_back(lgv::data::Mission(aProblem.mPickUp[i], aProblem.mDelivery[i], 0));
                 else 
                     break;
             }

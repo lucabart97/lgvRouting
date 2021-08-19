@@ -2,14 +2,12 @@
 
 using namespace lgv::data;
 
-Location::Location() : Location(0, 0.0f, 0.0f, 0)
-{
+Location::Location() : Location(0, 0.0f, 0.0f, 0){
 }
 
 Location::Location(int32_t aId, float aX, float aY, uint32_t aDemand, 
                    uint32_t aOpeningTW1, uint32_t aClosingTW1, uint32_t aOpeningTW2, 
-                   uint32_t aClosingTW2, uint32_t aServiceTime)
-{
+                   uint32_t aClosingTW2, uint32_t aServiceTime){
     this->mId           = aId;
     this->mX            = aX;
     this->mY            = aY;
@@ -21,55 +19,68 @@ Location::Location(int32_t aId, float aX, float aY, uint32_t aDemand,
     this->mServiceTime  = aServiceTime;
 }
 
-Location::~Location()
-{
+Location::~Location(){
 }
 
 
 void 
-Location::setId(const uint32_t aId)
-{
+Location::setId(const uint32_t aId){
     this->mId   = aId;
 }
 
 uint32_t 
-Location::getId() const
-{
+Location::getId() const{
     return this->mId;
 }
 
 void 
-Location::setX(const float aX)
-{
+Location::setX(const float aX){
     this->mX    = aX;
 }
 
 float 
-Location::getX() const
-{
+Location::getX() const{
     return this->mX;
 }
 
 void 
-Location::setY(const float aY)
-{
+Location::setY(const float aY){
     this->mY    = aY;
 }
 
 float 
-Location::getY() const
-{
+Location::getY() const{
     return this->mY;
 }
 
 void 
-Location::setDemand(const uint32_t aDemand)
-{
+Location::setDemand(const uint32_t aDemand){
     this->mDemand   = aDemand;
 }
 
 uint32_t 
-Location::getDemand() const
-{
+Location::getDemand() const{
     return this->mDemand;
 }
+
+/*float 
+distance(const Location& aLoc1, const Location& aLoc2, const DistanceFunction aFunction){
+    switch (aFunction)
+    {
+    case DistanceFunction::EUCLIDEAN:
+        return std::sqrt(std::pow(aLoc1.getX() - aLoc2.getX(), 2) + std::pow(aLoc1.getY() - aLoc2.getY(), 2));
+        break;
+
+    case DistanceFunction::MANHATTAN:
+        return std::fabs(aLoc1.getX() - aLoc2.getX()) + std::fabs(aLoc1.getY() - aLoc2.getY());
+        break;
+    
+    case DistanceFunction::MAXIMUM:
+        return std::max(std::fabs(aLoc1.getX() - aLoc2.getX()), std::fabs(aLoc1.getY() - aLoc2.getY()));
+        break;
+
+    default:
+        return 0.0f;
+        break;
+    }
+}*/
