@@ -5,25 +5,35 @@
 
 namespace lgv { namespace data {
 
+
+    /**
+     * @brief   Container for mission result in solution
+     * 
+     */
     class MissionResult{
         public:
-            id_lgv   mVeh;
-            Location mStart;
-            Location mEnd;
-            float mCost;
+            id_lgv   mVeh;      //!< vehicle id that complete this mission
+            Location mStart;    //!< pickup location
+            Location mEnd;      //!< delivery location
+            float mCost;        //!< cost 
             MissionResult();
             MissionResult(const MissionResult& aMissionResult);
             MissionResult(id_lgv aVeh, Location aStart, Location aEnd);
             MissionResult(id_lgv aVeh, Location aStart, Location aEnd, float aCost);
     };
 
+
+    /**
+     * @brief   Solution descriptor
+     * 
+     */
     class Solution
     {
     public:
-        double      mCost;
-        timeStamp_t mTime;
-        int  mNumberOfVeichles;
-        std::vector<MissionResult> mSolution;
+        double mCost;                           //!< solution cost
+        timeStamp_t mTime;                      //!< computational solution time
+        int  mNumberOfVeichles;                 //!< numer of vehicle used for solution
+        std::vector<MissionResult> mSolution;   //!< solution
 
         void fillCost(){
             std::vector<float> lgv(mNumberOfVeichles,0.0f);

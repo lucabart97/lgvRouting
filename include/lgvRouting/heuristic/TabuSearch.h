@@ -6,18 +6,18 @@ namespace lgv { namespace heuristic {
 
 
 /**
- * @brief   DepthLocalSearch algorithm. 
+ * @brief   TabuSearch algorithm. 
  *          Starting from an initial solution, the algorithm make mNumSwap for mIteration, 
- *          taking aslo solution with threshold mDiffCost for escaping from local minimun.
+ *          taking also solution with threshold mDiffCost for escaping from local minimun.
  *          The solutions that are already visited are putted in a tabu list.
  * 
  */
 class TabuSearch : public Generic{
     private:
-        int mNumSwap;
-        uint64_t mIteration;
-        float mDiffCost;
-        std::vector<lgv::data::Solution> mTabuList;
+        int mNumSwap;                               //!< number of node swap
+        uint64_t mIteration;                        //!< algorithm iterations
+        float mDiffCost;                            //!< cost threshold
+        std::vector<lgv::data::Solution> mTabuList; //!< tabu list
     public:
         TabuSearch();
         ~TabuSearch();
@@ -26,7 +26,6 @@ class TabuSearch : public Generic{
         void runChild() override;
         bool closeChild() override;
         bool isInTabu(lgv::data::Solution &aResult);
-    private:
 };
 
 }}

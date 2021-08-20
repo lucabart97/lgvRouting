@@ -41,4 +41,18 @@ TabuSearch:
   Or-opt: 3
   iteration: 100000
   diffCost: 10
+  timeout: 10
+
+# SimulatedAnnealing algorithm
+#
+#   initalTemperature start temperature
+#   minTemperature    mininum temperature
+#   coolingRate       cooling rate of temperature
+#   iterTempDec       iteration to perform before teperature decresing
+#   timeout           timeout in seconds
+SimulatedAnnealing:
+  initalTemperature: 10
+  minTemperature: 1
+  coolingRate: 0.1
+  iterTempDec: 1000000
   timeout: 10  

@@ -13,9 +13,9 @@ namespace lgv { namespace heuristic {
  */
 class MultiStart : public Generic{
     private:
-        int mNumStart;
-        int mNumSwap;
-        uint64_t mIteration;
+        int mNumStart;          //!< starting points
+        int mNumSwap;           //!< number of node swap
+        uint64_t mIteration;    //!< iteration for each starting point
     public:
         MultiStart();
         ~MultiStart();

@@ -55,6 +55,7 @@ add_library(heuristic SHARED
     src/heuristic/MultiStart.cpp
     src/heuristic/DepthLocalSearch.cpp
     src/heuristic/TabuSearch.cpp
+    src/heuristic/SimulatedAnnealing.cpp
 )
 target_include_directories(heuristic PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

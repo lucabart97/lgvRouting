@@ -28,11 +28,14 @@ LocalSearch::runChild(){
     mFinder.FillReturnMission(mSolution);
     mSolution.fillCost();
 
+    //Settijng variables
     std::srand(std::time(nullptr));
     std::vector<std::pair<int,int>> rnd(mNumSwap);
     timeStamp_t time = 0;
+
     for(bool found = true;found;){
         mTime.tic();
+
         //Make swap
         lgv::data::Solution newSol = start;
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
@@ -42,17 +45,19 @@ LocalSearch::runChild(){
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
             std::swap(newSol.mSolution[r.first],newSol.mSolution[r.second]);
         });
-
-        //Check feasibilty of solution founded
         lgv::data::Solution complete = newSol;
         mFinder.FillReturnMission(complete);
         complete.fillCost();
+
+        //Check feasibilty of solution founded
         if(mSolution.mCost > complete.mCost){
             mSolution = complete;
             start = newSol;
         }else{
             found = false;
         }        
+
+        //Timeout
         time += mTime.toc();
         if(time > mTimeout){
             lgvWRN("timeout");

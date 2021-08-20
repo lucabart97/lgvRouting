@@ -4,11 +4,16 @@
 #include "lgvRouting/data/Location.h"
 
 namespace lgv { namespace data {
+
+    /**
+     * @brief   Mission data
+     * 
+     */
     class Mission{
         public:
-            float mCost;
-            Location mEnd;
-            Location mStart;
+            float mCost;        //!< cost of the mission
+            Location mEnd;      //!< pickup location
+            Location mStart;    //!< delivery location
 
             Mission();
             Mission(const Mission& aMission);

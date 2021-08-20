@@ -30,12 +30,14 @@ TabuSearch::runChild(){
     found.fillCost();
     mSolution = found;
 
+    //Setting params
     timeStamp_t time = 0;
     std::srand(std::time(nullptr));
     std::vector<std::pair<int,int>> rnd(mNumSwap);
     for(int i = 0;i < mIteration; i++){
-        //Make swap
         mTime.tic();
+
+        //Make swap
         lgv::data::Solution newSol = start;
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
             r.first = std::rand()/((RAND_MAX + 1u)/newSol.mSolution.size()-1);
@@ -57,6 +59,8 @@ TabuSearch::runChild(){
             if(found.mCost < mSolution.mCost)
                 mSolution = found;
         }
+
+        //Timeout
         time += mTime.toc();
         if(time > mTimeout){
             lgvWRN("timeout");

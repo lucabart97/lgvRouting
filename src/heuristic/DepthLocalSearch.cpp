@@ -28,12 +28,15 @@ DepthLocalSearch::runChild(){
     mFinder.FillReturnMission(mSolution);
     mSolution.fillCost();
 
+    //Setting values
     timeStamp_t time = 0;
     std::srand(std::time(nullptr));
     std::vector<std::pair<int,int>> rnd(mNumSwap);
+
     for(int i = 0;i < mIteration; i++){
-        //Make swap
         mTime.tic();
+
+        //Make swap
         lgv::data::Solution newSol = start;
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
             r.first = std::rand()/((RAND_MAX + 1u)/newSol.mSolution.size()-1);
@@ -42,21 +45,22 @@ DepthLocalSearch::runChild(){
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
             std::swap(newSol.mSolution[r.first],newSol.mSolution[r.second]);
         });
-
-        //Check feasibilty of solution founded
         lgv::data::Solution complete = newSol;
         mFinder.FillReturnMission(complete);
         complete.fillCost();
+
+        //Check feasibilty of solution founded
         if(mSolution.mCost > complete.mCost){
             mSolution = complete;
             start = newSol;
         }
+
+        //Timeout
         time += mTime.toc();
         if(time > mTimeout){
             lgvWRN("timeout");
             break;
         }
-
     }
     mSolution.mTime = time;
 }

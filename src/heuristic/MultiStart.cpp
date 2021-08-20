@@ -23,14 +23,17 @@ MultiStart::initChild(YAML::Node& aNode){
 
 void 
 MultiStart::runChild(){
+    //Setting values
     mSolution.mCost = 99999999999;
     std::srand(std::time(nullptr));
     std::vector<std::pair<int,int>> rnd(mNumSwap);
     timeStamp_t time = 0;
+
     for(int j = 0; j < mNumStart; j++){
         lgv::data::Solution random = mFinder.FindRandomSolution(*mProblem);
         for(int i = 0; i < mIteration; i++){
             mTime.tic();
+
             //Make swap
             for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
                 r.first = std::rand()/((RAND_MAX + 1u)/random.mSolution.size()-1);
@@ -39,12 +42,14 @@ MultiStart::runChild(){
             for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
                 std::swap(random.mSolution[r.first],random.mSolution[r.second]);
             });
-
-            //Check feasibilty of solution founded
             lgv::data::Solution complete = random;
             mFinder.FillReturnMission(complete);
             complete.fillCost();
+
+            //Check feasibilty of solution founded
             mSolution = mSolution.mCost > complete.mCost ? complete : mSolution;
+
+            //Timeout
             time += mTime.toc();
             if(time > mTimeout){
                 lgvWRN("timeout");

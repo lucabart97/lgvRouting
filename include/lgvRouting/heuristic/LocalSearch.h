@@ -13,8 +13,8 @@ namespace lgv { namespace heuristic {
  */
 class LocalSearch : public Generic{
     private:
-        int mNumSwap;
-        uint64_t mIteration;
+        int mNumSwap;           //!< number of node swap
+        uint64_t mIteration;    //!< iteration for each starting point
     public:
         LocalSearch();
         ~LocalSearch();

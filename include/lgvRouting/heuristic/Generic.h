@@ -12,11 +12,11 @@ namespace lgv { namespace heuristic {
  */
 class Generic {
     protected:
-        lgv::data::Problem* mProblem = nullptr;
-        lgv::data::Solution mSolution;
-        lgv::data::Finder   mFinder;
-        lgv::rt::Time       mTime;
-        timeStamp_t         mTimeout;
+        lgv::data::Problem* mProblem = nullptr; //!< problem pointer
+        lgv::data::Solution mSolution;          //!< solution
+        lgv::data::Finder   mFinder;            //!< inital solution finder
+        lgv::rt::Time       mTime;              //!< timeout utils
+        timeStamp_t         mTimeout;           //!< timeout seconds
 
     private:
         virtual bool initChild(YAML::Node& aNode) = 0;

@@ -4,15 +4,20 @@
 #include "lgvRouting/data/Mission.h"
 
 namespace lgv { namespace data {
+
+    /**
+     * @brief   Problem class descriptor
+     * 
+     */
     class Problem
     {
     public:
-        Location                mDepot;
-        std::vector<Location>   mPickUp;
-        std::vector<Location>   mDelivery;
-        std::vector<Mission>    mMissions;
-        uint32_t                mNumberOfVeichles;
-        uint32_t                mCapacity;
+        Location                mDepot;             //!< not used
+        std::vector<Location>   mPickUp;            //!< not used
+        std::vector<Location>   mDelivery;          //!< not used
+        std::vector<Mission>    mMissions;          //!< mission to solve
+        uint32_t                mNumberOfVeichles;  //!< vehicle numbers
+        uint32_t                mCapacity;          //!< not used
 
         Problem();
         ~Problem();
@@ -22,7 +27,6 @@ namespace lgv { namespace data {
             aOstream<<"Problem:"<<std::endl;
             aOstream<<"\tMission: "<<aProblem.mMissions.size()<<std::endl;
             aOstream<<"\tVehicles: "<<aProblem.mNumberOfVeichles<<std::endl;
-            aOstream<<"\tCapacity: "<<aProblem.mCapacity<<std::endl;
             return aOstream;
         }
     };
