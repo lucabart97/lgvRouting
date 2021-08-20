@@ -38,15 +38,15 @@ Finder::FindRandomSolution(Problem& aProblem){
     lgvASSERT(aProblem.mMissions.size() != 0, "no mission");
     lgvASSERT(aProblem.mMissions.size() > aProblem.mNumberOfVeichles, "no sense");
 
-    std::srand(std::time(nullptr));
-    std::sort(aProblem.mMissions.begin(), aProblem.mMissions.end(),
-        [](const lgv::data::Mission & a, const lgv::data::Mission & b) -> bool {
-            return std::rand()/((RAND_MAX + 1u)) > 0.5 ? true : false;
-        });
-    
     Solution sol;
+    std::srand(std::time(nullptr));
+    std::vector<bool> used(aProblem.mMissions.size(), false);
     for(int i = 0; i < aProblem.mMissions.size(); i++){
-        auto p = aProblem.mMissions[i];
+        int index = std::rand()/(((float)RAND_MAX + 1u))*aProblem.mMissions.size();
+        while(used[index])
+            index = std::rand()/(((float)RAND_MAX + 1u))*aProblem.mMissions.size();
+        used[index] = true;
+        auto p = aProblem.mMissions[index];
         sol.mSolution.push_back(MissionResult(i % aProblem.mNumberOfVeichles,p.mStart,p.mEnd,p.mCost));
     }
     sol.mNumberOfVeichles = aProblem.mNumberOfVeichles;

@@ -40,11 +40,12 @@ TabuSearch::runChild(){
         //Make swap
         lgv::data::Solution newSol = start;
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-            r.first = std::rand()/((RAND_MAX + 1u)/newSol.mSolution.size()-1);
-            r.second = std::rand()/((RAND_MAX + 1u)/newSol.mSolution.size()-1);
+            r.first = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
+            r.second = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
         });
         for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
             std::swap(newSol.mSolution[r.first],newSol.mSolution[r.second]);
+            std::swap(newSol.mSolution[r.first].mVeh,newSol.mSolution[r.second].mVeh);
         });
 
         if(!isInTabu(newSol)){

@@ -2,7 +2,7 @@
 # LocalSearch algorithm
 #
 #   Or-opt      n arc to swap
-#   interation  iteration of algorithm
+#   iteration  iteration of algorithm
 #   timeout     timeout in seconds
 LocalSearch:
   Or-opt: 3
@@ -12,7 +12,7 @@ LocalSearch:
 # Multistart algorithm
 #
 #   Or-opt      n arc to swap
-#   interation  iteration of algorithm
+#   iteration  iteration of algorithm
 #   start       number of starting random points
 #   timeout     timeout in seconds
 MultiStart:
@@ -21,10 +21,36 @@ MultiStart:
   start: 1000
   timeout: 10
 
+# MultistartGpu algorithm
+#
+#   Or-opt      n arc to swap
+#   iteration  iteration of algorithm
+#   start       number of starting random points
+#   timeout     timeout in seconds
+MultistartGpu:
+  Or-opt: 3
+  iteration: 100000
+  start: 1000
+  timeout: 0
+
+# MultiStartMultithread algorithm
+#
+#   Or-opt      n arc to swap
+#   iteration  iteration of algorithm
+#   start       number of starting random points
+#   threads     number of cup threads
+#   timeout     timeout in seconds
+MultiStartMultithread:
+  Or-opt: 3
+  iteration: 100000
+  start: 1000
+  threads: 16
+  timeout: 10
+
 # DepthLocalSearch algorithm
 #
 #   Or-opt      n arc to swap
-#   interation  iteration of algorithm
+#   iteration  iteration of algorithm
 #   timeout     timeout in seconds
 DepthLocalSearch:
   Or-opt: 3
@@ -34,7 +60,7 @@ DepthLocalSearch:
 # TabuSearch algorithm
 #
 #   Or-opt      n arc to swap
-#   interation  iteration of algorithm
+#   iteration  iteration of algorithm
 #   diffCost    cost threshold
 #   timeout     timeout in seconds
 TabuSearch:

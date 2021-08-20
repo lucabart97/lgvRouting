@@ -46,7 +46,7 @@ SimulatedAnnealing::runChild(){
             }else{
                 //check feasibility
                 double probability = pow(M_E, (-found.mCost) / mTemperature);
-                double randProb = std::rand()/((RAND_MAX + 1u)/1.0);
+                double randProb = std::rand()/(((float)RAND_MAX + 1u)/1.0);
                 if(probability > randProb){
                     start = found;
                 }

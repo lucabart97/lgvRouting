@@ -1,7 +1,6 @@
 #pragma once
 
 #include <yaml-cpp/yaml.h>
-#include <Eigen/Dense>
 #include <cmath>
 
 #include "lgvRouting/common/log.h"

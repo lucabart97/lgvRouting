@@ -1,38 +1,42 @@
-#include "lgvRouting/heuristic/MultiStart.h"
+#include "lgvRouting/heuristic/MultiStartMultithread.h"
 
 using namespace lgv::heuristic;
 
-MultiStart::MultiStart(){
+MultiStartMultithread::MultiStartMultithread(){
     mNumSwap = 0;
     mIteration = 0.0f;
 }
 
-MultiStart::~MultiStart(){
+MultiStartMultithread::~MultiStartMultithread(){
 
 }
 
 bool 
-MultiStart::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultiStart"], "Or-opt", 2);
-    mNumStart   = lgv::common::YAMLgetConf<int>(aNode["MultiStart"], "start", 10);
-    mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStart"], "iteration", 1000);
-    mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStart"], "timeout", 10) * 1e6;
+MultiStartMultithread::initChild(YAML::Node& aNode){
+    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "Or-opt", 2);
+    mNumStart   = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "start", 10);
+    mThreads    = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "threads", 16);
+    mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStartMultithread"], "iteration", 1000);
+    mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStartMultithread"], "timeout", 10) * 1e6;
     return true;
 }
 
 
 void 
-MultiStart::runChild(){
+MultiStartMultithread::runChild(){
     //Setting values
     mSolution.mCost = 99999999999;
     std::srand(std::time(nullptr));
     std::vector<std::pair<int,int>> rnd(mNumSwap);
     timeStamp_t time = 0;
 
+    omp_set_num_threads(mThreads);
+    #pragma omp parallel for
     for(int j = 0; j < mNumStart; j++){
         lgv::data::Solution random = mFinder.FindRandomSolution(*mProblem);
         for(int i = 0; i < mIteration; i++){
-            mTime.tic();
+            if(omp_get_thread_num() == 0)
+                mTime.tic();
 
             //Make swap
             for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
@@ -51,9 +55,12 @@ MultiStart::runChild(){
             mSolution = mSolution.mCost > complete.mCost ? complete : mSolution;
 
             //Timeout
-            time += mTime.toc();
+            if(omp_get_thread_num() == 0){
+                time += mTime.toc();
+                if(time > mTimeout)
+                    lgvWRN("timeout");
+            }
             if(time > mTimeout){
-                lgvWRN("timeout");
                 j = mNumStart;
                 i = mIteration;
             }
@@ -63,6 +70,6 @@ MultiStart::runChild(){
 }
 
 bool 
-MultiStart::closeChild(){
+MultiStartMultithread::closeChild(){
     return true;
 }

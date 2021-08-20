@@ -30,7 +30,7 @@ Documentation will be created in doc folder, search index.html in html folder
 |------------|--------|---------|
 |[imgui](https://github.com/ocornut/imgui)| Omar Cornut | MIT|
 |[implot](https://github.com/epezent/implot)| Evan Pezent | MIT|
-|[Argh!](https://github.com/adishavit/argh)| Adi Shavit| Argh! |
+|[Argh!](https://github.com/adishavit/argh)| Adi Shavit| BSD-3 |
 
 
 ## Authors

@@ -5,7 +5,7 @@
 namespace lgv { namespace data {
     class Location
     {
-    private:
+    public:
         uint32_t    mId;
         float       mX, mY;
         uint32_t    mOpeningTW1, mClosingTW1;

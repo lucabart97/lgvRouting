@@ -6,6 +6,8 @@
 #include "lgvRouting/heuristic/DepthLocalSearch.h"
 #include "lgvRouting/heuristic/TabuSearch.h"
 #include "lgvRouting/heuristic/SimulatedAnnealing.h"
+#include "lgvRouting/heuristic/MultiStartMultithread.h"
+#include "lgvRouting/heuristic/MultiStartGpu.h"
 
 int main(int argc, char* argv[]) {
 
@@ -27,6 +29,10 @@ int main(int argc, char* argv[]) {
         heuristic = new lgv::heuristic::LocalSearch();
     else if(method == "multistart")
         heuristic = new lgv::heuristic::MultiStart();
+    else if(method == "multistartgpu")
+        heuristic = new lgv::heuristic::MultiStartGpu();
+    else if(method == "multistartmultithreads")
+        heuristic = new lgv::heuristic::MultiStartMultithread();
     else if(method == "depthlocalsearch")
         heuristic = new lgv::heuristic::DepthLocalSearch();
     else if(method == "tabusearch")
