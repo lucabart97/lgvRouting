@@ -4,6 +4,7 @@ using namespace lgv::heuristic;
 
 MultiStartGpu::MultiStartGpu(){
     d_start_size = 0;
+    d_random_size = 0;
 }
 
 MultiStartGpu::~MultiStartGpu(){
@@ -38,12 +39,27 @@ MultiStartGpu::runChild(){
         h_start.reserve(d_start_size+100);
     }
 
+    int size = mNumStart * mNumSwap * mIteration * 2;
+    if(d_random_size != size){
+        d_random_size = size;
+        if(d_random != nullptr){
+            lgvCUDA(cudaFree(d_random));
+            d_random = nullptr;
+        }
+        lgvCUDA(cudaMalloc((void**)&d_random, d_random_size*sizeof(float)));
+    }
+    curandGenerator_t gen;
+    CURAND_CALL(curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_DEFAULT));
+    CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, time(nullptr)));
+    CURAND_CALL(curandGenerateUniform(gen, d_random, d_random_size));
+    CURAND_CALL(curandDestroyGenerator(gen));
+
     //Fill start solution and copy on gpu
     fillStartSolutions();
     lgvCUDA(cudaMemcpy(d_start,h_start.data(),d_start_size*sizeof(lgv::data::MissionResult), cudaMemcpyHostToDevice));
 
     //Kernel
-    launch_kernel(mNumStart, d_start, mNumSwap, mIteration, mProblem->mMissions.size());
+    launch_kernel(mNumStart, d_start, mNumSwap, mIteration, mProblem->mMissions.size(), d_random, mProblem->mNumberOfVeichles);
     cudaDeviceSynchronize();
 
     //Copy result on cpu and find the best solution
@@ -55,8 +71,8 @@ void
 MultiStartGpu::fillStartSolutions(){
     h_start.clear();
     for(int i = 0; i < mNumStart; i++){
-        mProblem->fillCosts();
         lgv::data::Solution sol = mFinder.FindRandomSolution(*mProblem);
+        lgv::data::Solution a = sol;
         for_each(sol.mSolution.begin(), sol.mSolution.end(), [&](const lgv::data::MissionResult& m){
             h_start.push_back(m);
         });
@@ -76,7 +92,6 @@ MultiStartGpu::fillBestSolution(){
                     sol.mSolution.push_back(m);
                 });
         mFinder.FillReturnMission(sol);
-        sol.fillCost();
         if(sol.mCost < mSolution.mCost)
             mSolution = sol;
     }
@@ -87,5 +102,7 @@ bool
 MultiStartGpu::closeChild(){
     if(d_start != nullptr)
         lgvCUDA(cudaFree(d_start));
+    if(d_random != nullptr)
+        lgvCUDA(cudaFree(d_random));
     return true;
 }

@@ -23,10 +23,8 @@ void
 LocalSearch::runChild(){
     //Initial solution
     lgv::data::Solution start;
-    mProblem->fillCosts();
     mSolution = start = mFinder.FindInitialSolution(*mProblem);
     mFinder.FillReturnMission(mSolution);
-    mSolution.fillCost();
 
     //Settijng variables
     std::srand(std::time(nullptr));
@@ -48,7 +46,6 @@ LocalSearch::runChild(){
         });
         lgv::data::Solution complete = newSol;
         mFinder.FillReturnMission(complete);
-        complete.fillCost();
 
         //Check feasibilty of solution founded
         if(mSolution.mCost > complete.mCost){

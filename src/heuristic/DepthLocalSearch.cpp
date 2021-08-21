@@ -23,10 +23,8 @@ void
 DepthLocalSearch::runChild(){
     //Initial solution
     lgv::data::Solution start;
-    mProblem->fillCosts();
     mSolution = start = mFinder.FindInitialSolution(*mProblem);
     mFinder.FillReturnMission(mSolution);
-    mSolution.fillCost();
 
     //Setting values
     timeStamp_t time = 0;
@@ -48,7 +46,6 @@ DepthLocalSearch::runChild(){
         });
         lgv::data::Solution complete = newSol;
         mFinder.FillReturnMission(complete);
-        complete.fillCost();
 
         //Check feasibilty of solution founded
         if(mSolution.mCost > complete.mCost){

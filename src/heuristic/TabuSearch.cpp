@@ -24,10 +24,8 @@ void
 TabuSearch::runChild(){
     //Initial solution
     lgv::data::Solution start, found;
-    mProblem->fillCosts();
     found = start = mFinder.FindInitialSolution(*mProblem);
     mFinder.FillReturnMission(found);
-    found.fillCost();
     mSolution = found;
 
     //Setting params
@@ -52,7 +50,6 @@ TabuSearch::runChild(){
             //Check feasibilty of solution founded
             lgv::data::Solution complete = newSol;
             mFinder.FillReturnMission(complete);
-            complete.fillCost();
             if(found.mCost > complete.mCost + mDiffCost){
                 found = complete;
                 start = newSol;

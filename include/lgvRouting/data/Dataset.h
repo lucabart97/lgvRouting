@@ -15,8 +15,9 @@ enum class DatasetType {
 
 class Dataset
 {
-private:
+public:
     uint32_t    mNumOfInstances;
+private:
     uint32_t    mNumOfDepos;
     uint32_t    mNumOfStops;
     uint32_t    mNumOfVehicles;

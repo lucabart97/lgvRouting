@@ -17,7 +17,6 @@ Costructive::initChild(YAML::Node& aNode){
 
 void 
 Costructive::runChild(){
-    mProblem->fillCosts();
     mSolution = mFinder.FindInitialSolutionWithReturn(*mProblem);
 }
 

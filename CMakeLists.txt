@@ -53,6 +53,7 @@ target_link_libraries(common
     Eigen3::Eigen
     ${YAML_CPP_LIBRARIES}
     CUDA::cudart 
+    CUDA::curand 
     CUDA::cuda_driver
     OpenMP::OpenMP_CXX 
 )
@@ -78,6 +79,7 @@ target_link_libraries(heuristic
     Eigen3::Eigen
     ${YAML_CPP_LIBRARIES}
     CUDA::cudart 
+    CUDA::curand 
     CUDA::cuda_driver
     OpenMP::OpenMP_CXX 
 )

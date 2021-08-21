@@ -19,6 +19,7 @@ lgv::data::Solution
 Generic::run(lgv::data::Problem* aProblem){
     lgvASSERT(aProblem != nullptr)
     mProblem = aProblem;
+    mProblem->fillCosts();
     this->runChild();
     return mSolution;
 }

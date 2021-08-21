@@ -49,7 +49,6 @@ MultiStartMultithread::runChild(){
             });
             lgv::data::Solution complete = random;
             mFinder.FillReturnMission(complete);
-            complete.fillCost();
 
             //Check feasibilty of solution founded
             mSolution = mSolution.mCost > complete.mCost ? complete : mSolution;

@@ -16,9 +16,11 @@ Finder::FindInitialSolution(Problem& aProblem){
     lgvASSERT(aProblem.mMissions.size() != 0, "no mission");
     lgvASSERT(aProblem.mMissions.size() > aProblem.mNumberOfVeichles, "no sense");
 
+    //sort by weight
     std::sort(aProblem.mMissions.begin(), aProblem.mMissions.end(),std::less<Mission>());
     std::vector<float> lgv(aProblem.mNumberOfVeichles,0.0f);
 
+    //fill by vehicle cost 
     Solution sol;
     mTime.tic();
     for(auto &p : aProblem.mMissions){
@@ -55,24 +57,27 @@ Finder::FindRandomSolution(Problem& aProblem){
 
 void 
 Finder::FillReturnMission(Solution& sol){
+    //Fill lgv by mission id
     std::vector<std::vector<MissionResult>> lgv(sol.mNumberOfVeichles);
     for_each(sol.mSolution.begin(),sol.mSolution.end(), [&](MissionResult const & m){
         lgv[m.mVeh].push_back(m);
     });
+
+    //Add nodes
     sol.mSolution.clear();
     for_each(lgv.begin(), lgv.end(), [&](std::vector<MissionResult> const & vec){
-        float cost = 0.0f;
-        for_each(vec.begin()+1,vec.end(), [&](MissionResult const & m){
-            sol.mSolution.push_back(MissionResult((&m)[-1].mVeh, 
-                (&m)[-1].mStart, (&m)[-1].mEnd, (&m)[-1].mCost));
-            lgvASSERT((&m)[-1].mVeh ==  m.mVeh);
-            sol.mSolution.push_back(MissionResult(m.mVeh, 
-                (&m)[-1].mEnd, m.mStart));
-            cost += distance((&m)[-1].mStart, (&m)[-1].mEnd) +
-                    distance((&m)[-1].mEnd, m.mStart);
+        bool first = true;
+        for_each(vec.begin(),vec.end(), [&](MissionResult const & m){
+            if(!first){
+                //Create new node
+                lgv::data::Location& prec = sol.mSolution.back().mEnd;
+                sol.mSolution.push_back(MissionResult(m.mVeh, prec, m.mStart));
+            }
+            sol.mSolution.push_back(MissionResult(m.mVeh, m.mStart, m.mEnd, m.mCost));
+            first = false;
         });
-        sol.mCost = sol.mCost < cost ? cost : sol.mCost;
     });
+    sol.fillCost();
 }
 
 Solution 

@@ -1,13 +1,6 @@
 #include "lgvRouting/common/CmdParser.h"
 #include "lgvRouting/data/Dataset.h"
-#include "lgvRouting/heuristic/Costructive.h"
-#include "lgvRouting/heuristic/LocalSearch.h"
-#include "lgvRouting/heuristic/MultiStart.h"
-#include "lgvRouting/heuristic/DepthLocalSearch.h"
-#include "lgvRouting/heuristic/TabuSearch.h"
-#include "lgvRouting/heuristic/SimulatedAnnealing.h"
-#include "lgvRouting/heuristic/MultiStartMultithread.h"
-#include "lgvRouting/heuristic/MultiStartGpu.h"
+#include "lgvRouting/heuristic/Heuristic.h"
 
 int main(int argc, char* argv[]) {
 
@@ -22,35 +15,41 @@ int main(int argc, char* argv[]) {
 
     //init data
     lgv::data::Problem problem;
-    lgv::heuristic::Generic* heuristic;
-    if(method == "costructive")
-        heuristic = new lgv::heuristic::Costructive();
-    else if(method == "localsearch")
-        heuristic = new lgv::heuristic::LocalSearch();
-    else if(method == "multistart")
-        heuristic = new lgv::heuristic::MultiStart();
-    else if(method == "multistartgpu")
-        heuristic = new lgv::heuristic::MultiStartGpu();
-    else if(method == "multistartmultithreads")
-        heuristic = new lgv::heuristic::MultiStartMultithread();
-    else if(method == "depthlocalsearch")
-        heuristic = new lgv::heuristic::DepthLocalSearch();
-    else if(method == "tabusearch")
-        heuristic = new lgv::heuristic::TabuSearch();
-    else if(method == "simulatedannealing")
-        heuristic = new lgv::heuristic::SimulatedAnnealing();
-    else
-        lgvFATAL("method not recognized");
+    lgv::heuristic::Methods hMethod;
+    lgv::heuristic::init_methods(hMethod);
+    YAML::Node conf = YAML::LoadFile(std::string(LGV_PATH) + "/data/conf.yaml");
 
-    if (d.loadInstance(problem, dataset))
-    {
-        YAML::Node conf = YAML::LoadFile(std::string(LGV_PATH) + "/data/conf.yaml");
-        heuristic->init(conf);
+    if(method == "all"){
+        std::vector<std::pair<std::string,std::pair<int,float>>> result;
+        if (d.loadInstance(problem, dataset)){
+            //init data
+            std::vector<std::string> methods = {"costructive", "localsearch", "multistart", "simulatedannealing",
+            "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
+            for_each(methods.begin(), methods.end(), [&](const std::string& s){hMethod[s]->init(conf);});
 
-        lgv::data::Solution solution = heuristic->run(&problem);
-        std::cout<<problem<<solution<<std::endl;
+            //Fill result
+            for_each(methods.begin(), methods.end(), [&](const std::string& s){
+                lgv::data::Solution sol = hMethod[s]->run(&problem);
+                result.push_back(std::make_pair(s,std::make_pair(sol.mTime,sol.mCost)));
+            });
+
+            //order and print
+            std::sort(result.begin(), result.end(), 
+                [](const std::pair<std::string,std::pair<int,float>>& a, const std::pair<std::string,std::pair<int,float>>& b){
+                    return a.second.second < b.second.second;
+            });
+            for_each(result.begin(), result.end(), [&](const std::pair<std::string,std::pair<int,float>>& v){
+                std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second<<"\t"<<v.second.first<<"ms"<<std::endl;
+            });
+        }
+    }else{
+        if (d.loadInstance(problem, dataset)){
+            hMethod[method]->init(conf);
+            lgv::data::Solution solution = hMethod[method]->run(&problem);
+            std::cout<<problem<<solution<<std::endl;
+        }
     }
     
-    delete heuristic;
+    lgv::heuristic::dealloc_methods(hMethod);
     return 0;
 }

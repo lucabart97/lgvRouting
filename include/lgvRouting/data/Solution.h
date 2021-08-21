@@ -36,10 +36,21 @@ namespace lgv { namespace data {
         std::vector<MissionResult> mSolution;   //!< solution
 
         void fillCost(){
-            std::vector<float> lgv(mNumberOfVeichles,0.0f);
-            for(auto &p : mSolution)
-                lgv[std::distance(lgv.begin(), std::min_element(lgv.begin(), lgv.end()))] += p.mCost;
-            mCost = *std::max_element(lgv.begin(), lgv.end());
+            //Fill lgv by mission id
+            std::vector<std::vector<MissionResult>> lgv(mNumberOfVeichles);
+            for_each(mSolution.begin(),mSolution.end(), [&](MissionResult const & m){
+                lgv[m.mVeh].push_back(m);
+            });
+
+            //calc cost
+            mCost = -1;
+            for_each(lgv.begin(), lgv.end(), [&](std::vector<MissionResult> const & vec){
+                float cost = 0.0f;
+                for_each(vec.begin(),vec.end(), [&](MissionResult const & m){
+                    cost += m.mCost;
+                });
+                mCost = mCost < cost ? cost : mCost;
+            });
         }
 
         Solution& operator=(const Solution& s){

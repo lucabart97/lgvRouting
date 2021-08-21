@@ -37,7 +37,6 @@ SimulatedAnnealing::runChild(){
             lgv::data::Solution newSol = start;
             found = newSol = mFinder.FindRandomSolution(*mProblem);
             mFinder.FillReturnMission(newSol);
-            newSol.fillCost();
 
             if(newSol.mCost < mSolution.mCost){
                 //Accept better solution

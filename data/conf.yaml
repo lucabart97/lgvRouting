@@ -2,11 +2,11 @@
 # LocalSearch algorithm
 #
 #   Or-opt      n arc to swap
-#   iteration  iteration of algorithm
+#   iteration   iteration of algorithm
 #   timeout     timeout in seconds
 LocalSearch:
   Or-opt: 3
-  iteration: 100000000
+  iteration: 1000000
   timeout: 10
 
 # Multistart algorithm
@@ -17,8 +17,8 @@ LocalSearch:
 #   timeout     timeout in seconds
 MultiStart:
   Or-opt: 3
-  iteration: 100000
-  start: 1000
+  iteration: 1000
+  start: 10
   timeout: 10
 
 # MultistartGpu algorithm
@@ -29,8 +29,8 @@ MultiStart:
 #   timeout     timeout in seconds
 MultistartGpu:
   Or-opt: 3
-  iteration: 100000
-  start: 1000
+  iteration: 10000
+  start: 100
   timeout: 0
 
 # MultiStartMultithread algorithm
@@ -42,8 +42,8 @@ MultistartGpu:
 #   timeout     timeout in seconds
 MultiStartMultithread:
   Or-opt: 3
-  iteration: 100000
-  start: 1000
+  iteration: 10000
+  start: 100
   threads: 16
   timeout: 10
 
@@ -54,7 +54,7 @@ MultiStartMultithread:
 #   timeout     timeout in seconds
 DepthLocalSearch:
   Or-opt: 3
-  iteration: 100000000
+  iteration: 100000
   timeout: 10
 
 # TabuSearch algorithm
@@ -65,7 +65,7 @@ DepthLocalSearch:
 #   timeout     timeout in seconds
 TabuSearch:
   Or-opt: 3
-  iteration: 100000
+  iteration: 1000
   diffCost: 10
   timeout: 10
 
@@ -80,5 +80,5 @@ SimulatedAnnealing:
   initalTemperature: 10
   minTemperature: 1
   coolingRate: 0.1
-  iterTempDec: 1000000
+  iterTempDec: 10000
   timeout: 10  
