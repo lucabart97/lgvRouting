@@ -44,9 +44,9 @@ class MultiStartGpu : public Generic{
         lgv::data::MissionResult* d_start = nullptr;    //!< device mission result
         std::vector<lgv::data::MissionResult> h_start;  //!< host mission result
 
-        curandGenerator_t gen;      //!< gpu random generator
-        int d_random_size;          //!< size of gpu array with random values
-        float* d_random = nullptr;    //!< gpu array with random values
+        curandGenerator_t gen;          //!< gpu random generator
+        int d_random_size;              //!< size of gpu array with random values
+        float* d_random = nullptr;      //!< gpu array with random values
 
     public:
         MultiStartGpu();
@@ -60,18 +60,45 @@ class MultiStartGpu : public Generic{
         void fillBestSolution();
 };
 
+/**
+ * @brief kernel wrapper
+ * 
+ */
 void launch_kernel(int aStartNum, lgv::data::MissionResult* aStartSol, int aSwap, int aIteration, int aNumMission, float* aRandom, int aNumberOfVeichles);
 
+/**
+ * @brief swap location function in cuda
+ * 
+ */
 __device__ void swapLocation(lgv::data::Location* a, lgv::data::Location* b);
 
+
+/**
+ * @brief reimplementation of std::swap in cuda
+ * 
+ */
 template <typename T> __device__ void inline cudaSwap(T& a, T& b){
     T c(a); a=b; b=c;
 }
 
+/**
+ * @brief function that calculate the routing cost on cuda
+ * 
+ */
 __device__ float makeCost(lgv::data::MissionResult* aMission, int aNumMission, int aNumberOfVeichles);
 
+
+/**
+ * @brief funtion that calculate the distance between two location in cuda
+ * 
+ */
 __device__ float distanceCuda(lgv::data::Location& aLoc1, lgv::data::Location& aLoc2);
 
+
+/**
+ * @brief kernel definition
+ * 
+ */
 __global__ void kernel_multi_start_gpu(lgv::data::MissionResult* aStart, int aStartNum, int aSwap, int aIteration, int aNumMission, float* aRandom, int aNumberOfVeichles); 
 
 }}

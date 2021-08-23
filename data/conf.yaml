@@ -45,7 +45,7 @@ MultiStartMultithread:
   iteration: 10000
   start: 100
   threads: 16
-  timeout: 10
+  timeout: 20
 
 # DepthLocalSearch algorithm
 #
@@ -55,7 +55,7 @@ MultiStartMultithread:
 DepthLocalSearch:
   Or-opt: 3
   iteration: 100000
-  timeout: 10
+  timeout: 20
 
 # TabuSearch algorithm
 #
