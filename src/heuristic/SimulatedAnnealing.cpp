@@ -59,7 +59,7 @@ SimulatedAnnealing::runChild(){
                 mTemperature = -1;
             }
         }
-        mTemperature *= mCoolingRate;
+        mTemperature -= mCoolingRate;
     }
     mSolution.mTime = time;
 }

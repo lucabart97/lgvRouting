@@ -13,7 +13,7 @@ LocalSearch::~LocalSearch(){
 
 bool 
 LocalSearch::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["LocalSearch"], "Or-opt", 2);
+    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["LocalSearch"], "swap", 2);
     mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["LocalSearch"], "iteration", 1000);
     mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["LocalSearch"], "timeout", 10) * 1e6;
     return true;

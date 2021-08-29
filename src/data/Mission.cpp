@@ -25,7 +25,13 @@ Mission::~Mission(){
 bool 
 Mission::operator<(const Mission& aMission) const{
         return (mCost < aMission.mCost);
-    }
+}
+
+bool 
+Mission::operator>(const Mission& aMission) const{
+        return (mCost > aMission.mCost);
+}
+
 
 void 
 Mission::fillDistance(const DistanceFunction aFunction){

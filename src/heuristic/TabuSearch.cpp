@@ -13,10 +13,11 @@ TabuSearch::~TabuSearch(){
 
 bool 
 TabuSearch::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["TabuSearch"], "Or-opt", 2);
-    mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["TabuSearch"], "iteration", 1000);
-    mDiffCost   = lgv::common::YAMLgetConf<float>(aNode["TabuSearch"], "diffCost", 1);
-    mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["TabuSearch"], "timeout", 10) * 1e6;
+    mNumSwap        = lgv::common::YAMLgetConf<int>(aNode["TabuSearch"], "swap", 2);
+    mIteration      = lgv::common::YAMLgetConf<uint64_t>(aNode["TabuSearch"], "iteration", 1000);
+    mDiffCost       = lgv::common::YAMLgetConf<float>(aNode["TabuSearch"], "diffCost", 1);
+    mListMaxLenght  = lgv::common::YAMLgetConf<int>(aNode["TabuSearch"], "listLenght", 0);
+    mTimeout        = lgv::common::YAMLgetConf<uint64_t>(aNode["TabuSearch"], "timeout", 10) * 1e6;
     return true;
 }
 
@@ -27,6 +28,7 @@ TabuSearch::runChild(){
     found = start = mFinder.FindInitialSolution(*mProblem);
     mFinder.FillReturnMission(found);
     mSolution = found;
+    mTabuList.clear();
 
     //Setting params
     timeStamp_t time = 0;
@@ -83,6 +85,10 @@ TabuSearch::isInTabu(lgv::data::Solution &aResult){
 
     if(!found)
         mTabuList.push_back(aResult);
+    
+    if(mListMaxLenght && mTabuList.size() == mListMaxLenght)
+        mTabuList.pop_front();
+
     return found;
 }
 

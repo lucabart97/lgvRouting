@@ -1,26 +1,29 @@
-#include "lgvRouting/heuristic/Costructive.h"
+#include "lgvRouting/heuristic/Constructive.h"
 
 using namespace lgv::heuristic;
 
-Costructive::Costructive(){
+Constructive::Constructive(){
 
 }
 
-Costructive::~Costructive(){
+Constructive::~Constructive(){
 
 }
 
 bool 
-Costructive::initChild(YAML::Node& aNode){
+Constructive::initChild(YAML::Node& aNode){
+    mDecreasing = lgv::common::YAMLgetConf<bool>(aNode["Constructive"], "Decreasing", true);
     return true;
 }
 
 void 
-Costructive::runChild(){
-    mSolution = mFinder.FindInitialSolutionWithReturn(*mProblem);
+Constructive::runChild(){
+    mProblem->fillCosts();
+    mSolution = mFinder.FindInitialSolution(*mProblem,!mDecreasing);
+    mFinder.FillReturnMission(mSolution);
 }
 
 bool 
-Costructive::closeChild(){
+Constructive::closeChild(){
     return true;
 }

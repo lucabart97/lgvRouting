@@ -1,7 +1,7 @@
 #pragma one
 #include <map>
 
-#include "lgvRouting/heuristic/Costructive.h"
+#include "lgvRouting/heuristic/Constructive.h"
 #include "lgvRouting/heuristic/LocalSearch.h"
 #include "lgvRouting/heuristic/MultiStart.h"
 #include "lgvRouting/heuristic/DepthLocalSearch.h"
@@ -15,7 +15,7 @@ namespace lgv { namespace heuristic {
 typedef std::map<std::string,lgv::heuristic::Generic*> Methods;
 
 inline void init_methods(Methods& map){
-    map["costructive"]              = new lgv::heuristic::Costructive();
+    map["constructive"]              = new lgv::heuristic::Constructive();
     map["localsearch"]              = new lgv::heuristic::LocalSearch();
     map["multistart"]               = new lgv::heuristic::MultiStart();
     map["multistartgpu"]            = new lgv::heuristic::MultiStartGpu();

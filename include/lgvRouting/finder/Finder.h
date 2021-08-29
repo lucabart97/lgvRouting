@@ -16,9 +16,10 @@ namespace lgv { namespace data {
              * @brief   Find an initial solution ordering path by cost
              * 
              * @param aProblem  Problem, cost need to be filled
+             * @param aLess     Order mission in descresing or incresing order
              * @return Solution Solution
              */
-            Solution FindInitialSolution(Problem& aProblem);
+            Solution FindInitialSolution(Problem& aProblem, bool aLess = true);
             /**
              * @brief   Find an random solution
              * 

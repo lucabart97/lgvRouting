@@ -5,8 +5,6 @@
 int main(int argc, char* argv[]) {
 
     lgv::common::CmdParser cmd(argv, "lgvRouting_launch");
-    std::string method = cmd.addOpt("-method", "costructive", "launch method");
-    int dataset        = cmd.addIntOpt("-dataset", 10, "dataset id");
     cmd.parse();
     
     //Dataset
@@ -18,17 +16,23 @@ int main(int argc, char* argv[]) {
     lgv::heuristic::Methods hMethod;
     lgv::heuristic::init_methods(hMethod);
     YAML::Node conf = YAML::LoadFile(std::string(LGV_PATH) + "/data/conf.yaml");
-    std::vector<std::string> methods = {"costructive", "localsearch", "multistart", "simulatedannealing",
+    std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
     "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
     for_each(methods.begin(), methods.end(), [&](const std::string& s){hMethod[s]->init(conf);});
 
     std::map<std::string, std::pair<int,float>> result;
-    int n = 4;
+    int n = d.mNumOfInstances-1;
     for(int i = 0; i < n; i++){
         if(d.loadInstance(problem, i)){
             for_each(methods.begin(), methods.end(), [&](const std::string& s){
                 lgv::data::Solution solution = hMethod[s]->run(&problem);
-                result[s] = std::make_pair(solution.mTime,solution.mCost);
+                std::cout<<solution.mCost<<"___"<<solution.mTime<<std::endl;
+                if (result.find(s) == result.end()){
+                    result[s] = std::make_pair(solution.mTime,solution.mCost);
+                } else {
+                    std::pair<int,float> value = result[s];
+                    result[s] = std::make_pair(solution.mTime+value.first,solution.mCost+value.second);
+                }
             });
         }
         std::cout<<"cicle "<<i<<"/"<<n<<std::endl;

@@ -20,6 +20,7 @@ namespace lgv { namespace data {
             Mission(Location aStart, Location aEnd, float aCost);
             ~Mission();
             bool operator<(const Mission& aMission) const;
+            bool operator>(const Mission& aMission) const;
             void fillDistance(const DistanceFunction aFunction = DistanceFunction::EUCLIDEAN);
     };
 }}

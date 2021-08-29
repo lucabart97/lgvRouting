@@ -11,13 +11,16 @@ Finder::~Finder(){
 }
 
 Solution 
-Finder::FindInitialSolution(Problem& aProblem){
+Finder::FindInitialSolution(Problem& aProblem, bool aLess){
     lgvASSERT(aProblem.mNumberOfVeichles != 0, "no vehicles");
     lgvASSERT(aProblem.mMissions.size() != 0, "no mission");
     lgvASSERT(aProblem.mMissions.size() > aProblem.mNumberOfVeichles, "no sense");
 
     //sort by weight
-    std::sort(aProblem.mMissions.begin(), aProblem.mMissions.end(),std::less<Mission>());
+    if(aLess)
+        std::sort(aProblem.mMissions.begin(), aProblem.mMissions.end(),std::less<Mission>());
+    else
+        std::sort(aProblem.mMissions.begin(), aProblem.mMissions.end(),std::greater<Mission>());
     std::vector<float> lgv(aProblem.mNumberOfVeichles,0.0f);
 
     //fill by vehicle cost 

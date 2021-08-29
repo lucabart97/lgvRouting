@@ -13,7 +13,7 @@ MultiStartGpu::~MultiStartGpu(){
 
 bool 
 MultiStartGpu::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultistartGpu"], "Or-opt", 2);
+    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultistartGpu"], "swap", 2);
     mNumStart   = lgv::common::YAMLgetConf<int>(aNode["MultistartGpu"], "start", 10);
     mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["MultistartGpu"], "iteration", 1000);
     mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["MultistartGpu"], "timeout", 0);

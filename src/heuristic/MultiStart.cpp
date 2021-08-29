@@ -13,7 +13,7 @@ MultiStart::~MultiStart(){
 
 bool 
 MultiStart::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultiStart"], "Or-opt", 2);
+    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultiStart"], "swap", 2);
     mNumStart   = lgv::common::YAMLgetConf<int>(aNode["MultiStart"], "start", 10);
     mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStart"], "iteration", 1000);
     mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStart"], "timeout", 10) * 1e6;

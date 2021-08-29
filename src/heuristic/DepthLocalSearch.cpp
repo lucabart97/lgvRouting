@@ -13,7 +13,7 @@ DepthLocalSearch::~DepthLocalSearch(){
 
 bool 
 DepthLocalSearch::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["DepthLocalSearch"], "Or-opt", 2);
+    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["DepthLocalSearch"], "swap", 2);
     mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["DepthLocalSearch"], "iteration", 1000);
     mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["DepthLocalSearch"], "timeout", 10) * 1e6;
     return true;

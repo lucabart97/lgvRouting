@@ -39,9 +39,9 @@ TEST_CASE("Test all heuristics on dataset P2") {
     d.load(lgv::data::DatasetType::P2);
 
     lgv::data::Problem problem;
-    lgv::heuristic::Costructive c;
+    lgv::heuristic::Constructive c;
 
-    std::vector<std::string> methods = {"costructive", "localsearch", "multistart", "simulatedannealing",
+    std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
             "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
     lgv::heuristic::Methods m;
     lgv::heuristic::init_methods(m);

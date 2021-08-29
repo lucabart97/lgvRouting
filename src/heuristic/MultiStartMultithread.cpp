@@ -13,7 +13,7 @@ MultiStartMultithread::~MultiStartMultithread(){
 
 bool 
 MultiStartMultithread::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "Or-opt", 2);
+    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "swap", 2);
     mNumStart   = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "start", 10);
     mThreads    = lgv::common::YAMLgetConf<int>(aNode["MultiStartMultithread"], "threads", 16);
     mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["MultiStartMultithread"], "iteration", 1000);

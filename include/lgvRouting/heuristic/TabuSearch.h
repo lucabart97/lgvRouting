@@ -17,7 +17,8 @@ class TabuSearch : public Generic{
         int mNumSwap;                               //!< number of node swap
         uint64_t mIteration;                        //!< algorithm iterations
         float mDiffCost;                            //!< cost threshold
-        std::vector<lgv::data::Solution> mTabuList; //!< tabu list
+        std::list<lgv::data::Solution>   mTabuList; //!< tabu list
+        int mListMaxLenght;                         //!< tabu max list lenght requested by user
     public:
         TabuSearch();
         ~TabuSearch();

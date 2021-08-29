@@ -1,73 +1,65 @@
+# Constructive algorithm
+#
+#   Decreasing  order mission in decreasing or increasing order
+Constructive:
+  Decreasing: false
+
 
 # LocalSearch algorithm
 #
-#   Or-opt      n arc to swap
+#   swap        n arc to swap
 #   iteration   iteration of algorithm
 #   timeout     timeout in seconds
 LocalSearch:
-  Or-opt: 3
+  swap: 5
   iteration: 1000000
   timeout: 10
 
+# DepthLocalSearch algorithm
+#
+#   swap        n arc to swap
+#   iteration   iteration of algorithm
+#   timeout     timeout in seconds
+DepthLocalSearch:
+  swap: 5
+  iteration: 100
+  timeout: 20
+
 # Multistart algorithm
 #
-#   Or-opt      n arc to swap
+#   swap      n arc to swap
 #   iteration  iteration of algorithm
 #   start       number of starting random points
 #   timeout     timeout in seconds
 MultiStart:
-  Or-opt: 3
+  swap: 4
   iteration: 1000
-  start: 10
-  timeout: 10
+  start: 1000
+  timeout: 100
 
 # MultistartGpu algorithm
 #
-#   Or-opt      n arc to swap
+#   swap      n arc to swap
 #   iteration  iteration of algorithm
 #   start       number of starting random points
-#   timeout     timeout in seconds
 MultistartGpu:
-  Or-opt: 3
-  iteration: 10000
+  swap: 2
+  iteration: 100000
   start: 100
-  timeout: 0
 
 # MultiStartMultithread algorithm
 #
-#   Or-opt      n arc to swap
+#   swap      n arc to swap
 #   iteration  iteration of algorithm
 #   start       number of starting random points
 #   threads     number of cup threads
 #   timeout     timeout in seconds
 MultiStartMultithread:
-  Or-opt: 3
-  iteration: 10000
-  start: 100
+  swap: 2
+  iteration: 100
+  start: 100000
   threads: 16
-  timeout: 20
-
-# DepthLocalSearch algorithm
-#
-#   Or-opt      n arc to swap
-#   iteration  iteration of algorithm
-#   timeout     timeout in seconds
-DepthLocalSearch:
-  Or-opt: 3
-  iteration: 100000
-  timeout: 20
-
-# TabuSearch algorithm
-#
-#   Or-opt      n arc to swap
-#   iteration  iteration of algorithm
-#   diffCost    cost threshold
-#   timeout     timeout in seconds
-TabuSearch:
-  Or-opt: 3
-  iteration: 1000
-  diffCost: 10
-  timeout: 10
+  timeout: 2000
 
 # SimulatedAnnealing algorithm
 #
@@ -78,7 +70,21 @@ TabuSearch:
 #   timeout           timeout in seconds
 SimulatedAnnealing:
   initalTemperature: 10
-  minTemperature: 1
+  minTemperature: 0.1
   coolingRate: 0.1
   iterTempDec: 10000
-  timeout: 10  
+  timeout: 100  
+
+# TabuSearch algorithm
+#
+#   swap        n arc to swap
+#   iteration   iteration of algorithm
+#   diffCost    cost threshold
+#   listLenght  lenght of tabu list 0=infinite
+#   timeout     timeout in seconds
+TabuSearch:
+  swap: 3
+  iteration: 10000
+  diffCost: 4
+  listLenght: 0
+  timeout: 100 

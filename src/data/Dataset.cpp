@@ -124,6 +124,9 @@ Dataset::load(const DatasetType aType) {
 
 bool
 Dataset::loadInstance(Problem& aProblem, const uint32_t aIdx){
+    aProblem.mDelivery.clear();
+    aProblem.mPickUp.clear();
+    aProblem.mMissions.clear();
     if ((aIdx + 1) < mNumOfInstances) {
         std::fstream newfile;
         newfile.open(mBinPath + "/" + std::to_string(aIdx + 1) + mBinPath + ".DAT", std::ios::in);

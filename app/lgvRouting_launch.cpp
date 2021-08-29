@@ -5,7 +5,7 @@
 int main(int argc, char* argv[]) {
 
     lgv::common::CmdParser cmd(argv, "lgvRouting_launch");
-    std::string method = cmd.addOpt("-method", "costructive", "launch method");
+    std::string method = cmd.addOpt("-method", "constructive", "launch method");
     int dataset        = cmd.addIntOpt("-dataset", 10, "dataset id");
     cmd.parse();
     
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         std::vector<std::pair<std::string,std::pair<int,float>>> result;
         if (d.loadInstance(problem, dataset)){
             //init data
-            std::vector<std::string> methods = {"costructive", "localsearch", "multistart", "simulatedannealing",
+            std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
             "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
             for_each(methods.begin(), methods.end(), [&](const std::string& s){hMethod[s]->init(conf);});
 
