@@ -12,8 +12,8 @@ Constructive:
 #   timeout     timeout in seconds
 LocalSearch:
   swap: 5
-  iteration: 1000000
-  timeout: 10
+  iteration: 100000
+  timeout: 100
 
 # DepthLocalSearch algorithm
 #
@@ -21,9 +21,9 @@ LocalSearch:
 #   iteration   iteration of algorithm
 #   timeout     timeout in seconds
 DepthLocalSearch:
-  swap: 5
-  iteration: 100
-  timeout: 20
+  swap: 2
+  iteration: 10000
+  timeout: 100
 
 # Multistart algorithm
 #
@@ -43,9 +43,9 @@ MultiStart:
 #   iteration  iteration of algorithm
 #   start       number of starting random points
 MultistartGpu:
-  swap: 2
-  iteration: 100000
-  start: 100
+  swap: 4
+  iteration: 1000
+  start: 1000
 
 # MultiStartMultithread algorithm
 #
@@ -56,10 +56,10 @@ MultistartGpu:
 #   timeout     timeout in seconds
 MultiStartMultithread:
   swap: 2
-  iteration: 100
-  start: 100000
+  iteration: 1000
+  start: 1000
   threads: 16
-  timeout: 2000
+  timeout: 100
 
 # SimulatedAnnealing algorithm
 #
@@ -72,7 +72,7 @@ SimulatedAnnealing:
   initalTemperature: 10
   minTemperature: 0.1
   coolingRate: 0.1
-  iterTempDec: 10000
+  iterTempDec: 1000
   timeout: 100  
 
 # TabuSearch algorithm
@@ -84,7 +84,7 @@ SimulatedAnnealing:
 #   timeout     timeout in seconds
 TabuSearch:
   swap: 3
-  iteration: 10000
+  iteration: 1000
   diffCost: 4
   listLenght: 0
   timeout: 100 

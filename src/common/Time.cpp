@@ -30,5 +30,5 @@ Time::toc() {
     lgvASSERT(mStart != 0, "must tic() before toc()")
     timeStamp_t res = getTimeStamp() - mStart;
     mStart = 0;
-    return res;
+    return res/1000;
 }

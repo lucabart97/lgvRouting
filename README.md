@@ -10,17 +10,21 @@ cd build
 cmake ..
 make -j8
 ```
+## test
+Tests are made with catch2 library, the lgvRouting_test check if all works fine and all library are installed in a correct way
 
 ## Samples
+- lgvRouting_import: sample for reading dataset
+- lgvRouting_launch: sample for launch a method on a given dataset
+- lgvRouting_stats: application that create a performance report about all methods
 
-TODO
 
 ## Docs
 
 dataset source [link](https://neo.lcc.uma.es/vrp/)
 
 ```
-doxygen doc/Doxygen
+doxygen doc/Doxyfile
 ```
 Documentation will be created in doc folder, search index.html in html folder
 

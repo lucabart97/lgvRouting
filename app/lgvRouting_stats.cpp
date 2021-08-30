@@ -26,7 +26,6 @@ int main(int argc, char* argv[]) {
         if(d.loadInstance(problem, i)){
             for_each(methods.begin(), methods.end(), [&](const std::string& s){
                 lgv::data::Solution solution = hMethod[s]->run(&problem);
-                std::cout<<solution.mCost<<"___"<<solution.mTime<<std::endl;
                 if (result.find(s) == result.end()){
                     result[s] = std::make_pair(solution.mTime,solution.mCost);
                 } else {
@@ -35,7 +34,7 @@ int main(int argc, char* argv[]) {
                 }
             });
         }
-        std::cout<<"cicle "<<i<<"/"<<n<<std::endl;
+        std::cerr<<"cicle "<<i+1<<"/"<<n<<std::endl;
     }
     std::cout<<"\nAVG results:\n";
     for_each(result.begin(), result.end(), [&](const std::pair<std::string,std::pair<int,float>>& v){
