@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     }
     std::cout<<"\nAVG results:\n";
     for_each(result.begin(), result.end(), [&](const std::pair<std::string,std::pair<int,float>>& v){
-        std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second/n<<"\t"<<v.second.first/n<<"ms"<<std::endl;
+        std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second/n<<"\t"<<v.second.first/n<<"us"<<std::endl;
     });
     
     lgv::heuristic::dealloc_methods(hMethod);

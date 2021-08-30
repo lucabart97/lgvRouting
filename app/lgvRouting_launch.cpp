@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
                     return a.second.second < b.second.second;
             });
             for_each(result.begin(), result.end(), [&](const std::pair<std::string,std::pair<int,float>>& v){
-                std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second<<"\t"<<v.second.first<<"ms"<<std::endl;
+                std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second<<"\t"<<v.second.first<<"us"<<std::endl;
             });
         }
     }else{
