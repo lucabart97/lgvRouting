@@ -4,9 +4,6 @@
 
 int main(int argc, char* argv[]) {
 
-    lgv::common::CmdParser cmd(argv, "lgvRouting_launch");
-    cmd.parse();
-    
     //Dataset
     lgv::data::Dataset  d;
     d.load(lgv::data::DatasetType::P2);
@@ -36,9 +33,10 @@ int main(int argc, char* argv[]) {
         }
         std::cerr<<"cicle "<<i+1<<"/"<<n<<std::endl;
     }
-    std::cout<<"\nAVG results:\n";
+    //std::cout<<"\nAVG results:\n";
     for_each(result.begin(), result.end(), [&](const std::pair<std::string,std::pair<int,float>>& v){
-        std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second/n<<"\t"<<v.second.first/n<<"us"<<std::endl;
+        std::cout<<v.first<<";"<<v.second.second/n<<";"<<(float)v.second.first/n<<std::endl;
+        //std::cout<<v.first<<":"<<std::string(30-v.first.size(),' ' )<<v.second.second/n<<"\t"<<v.second.first/n<<"us"<<std::endl;
     });
     
     lgv::heuristic::dealloc_methods(hMethod);

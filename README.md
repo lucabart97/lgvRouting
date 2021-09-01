@@ -11,13 +11,23 @@ cmake ..
 make -j8
 ```
 ## test
-Tests are made with catch2 library, the lgvRouting_test check if all works fine and all library are installed in a correct way
+Tests are doing with catch2 library, the lgvRouting_test check if all works fine and all library are installed in a correct way
 
 ## Samples
 - lgvRouting_import: sample for reading dataset
 - lgvRouting_launch: sample for launch a method on a given dataset
 - lgvRouting_stats: application that create a performance report about all methods
 
+## boxPlot
+```
+./lgvRouting_stats > logX.txt
+```
+where X is a user index of dataset of result.<br /> 
+Launch the python script in a folder that contains at least one file that start with log.
+```
+python3 bonplot.py
+```
+where X
 
 ## Docs
 
