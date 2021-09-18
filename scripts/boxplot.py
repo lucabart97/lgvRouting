@@ -19,7 +19,7 @@ for entry in os.scandir(directory):
             if not s[0] in dictTime:
                 dictCost[s[0]] = list()
                 dictTime[s[0]] = list()
-            dictCost[s[0]].append(float(s[1])/1000000)
+            dictCost[s[0]].append(float(s[1]))
             dictTime[s[0]].append(float(s[2])/1000000)
 
 print("BoxPlot with sample: "+str(numSample))
