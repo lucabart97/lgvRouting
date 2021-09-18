@@ -25,9 +25,9 @@ Tests are doing with catch2 library, the lgvRouting_test check if all works fine
 where X is a user index of dataset of result.<br /> 
 Launch the python script in a folder that contains at least one file that start with log.
 ```
-python3 bonplot.py
+python3 boxplot.py
 ```
-where X
+The result is a boxplot with all stats result.
 
 ## Docs
 
@@ -42,8 +42,6 @@ Documentation will be created in doc folder, search index.html in html folder
 
 | Repository | Author | LICENSE |
 |------------|--------|---------|
-|[imgui](https://github.com/ocornut/imgui)| Omar Cornut | MIT|
-|[implot](https://github.com/epezent/implot)| Evan Pezent | MIT|
 |[Argh!](https://github.com/adishavit/argh)| Adi Shavit| BSD-3 |
 
 
