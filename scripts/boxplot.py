@@ -23,9 +23,13 @@ for entry in os.scandir(directory):
                 dictTime[s[0]] = list()
             dictCost[s[0]].append(float(s[1]))
             dictTime[s[0]].append(float(s[2])/1000000)
+#ordering
+dfcost = pd.DataFrame(dictCost).T
+dfcost = dfcost.sort_values(by=dfcost.columns[1]).T
+dftime = pd.DataFrame(dictTime).T
+dftime = dftime.sort_values(by=dftime.columns[1]).T
 
-dfcost = pd.DataFrame(dictCost)
-dftime = pd.DataFrame(dictTime)
+#print(dftime.T.sort_values(dftime.columns[0]))
 
 print("BoxPlot with sample: "+str(numSample),end="\n\n")
 print("Algorithm value:")
