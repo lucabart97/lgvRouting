@@ -27,7 +27,7 @@ Launch the python script in a folder that contains at least one file that start 
 ```
 python3 boxplot.py
 ```
-The result is a boxplot with all stats result.
+The result is a boxplot with all stats result, including a ranking of all algorithm by ratio cost/time.
 
 ## Docs
 
