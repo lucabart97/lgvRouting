@@ -72,7 +72,7 @@ SimulatedAnnealing:
   initalTemperature: 10
   minTemperature: 0.1
   coolingRate: 0.1
-  iterTempDec: 1000
+  iterTempDec: 10000
   timeout: 100  
 
 # TabuSearch algorithm

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 dictTime = {}
 dictCost = {}
+names = {}
 numSample = 0
 
 directory = "."
@@ -16,15 +17,23 @@ for entry in os.scandir(directory):
         lines = data.splitlines()
         for l in lines:
             s = l.split(";")
+            names[s[0]] = 0
             if not s[0] in dictTime:
                 dictCost[s[0]] = list()
                 dictTime[s[0]] = list()
             dictCost[s[0]].append(float(s[1]))
             dictTime[s[0]].append(float(s[2])/1000000)
 
-print("BoxPlot with sample: "+str(numSample))
 dfcost = pd.DataFrame(dictCost)
 dftime = pd.DataFrame(dictTime)
+
+print("BoxPlot with sample: "+str(numSample),end="\n\n")
+print("Algorithm value:")
+
+for name in names:
+    agvCost = sum(dictCost[name]) / numSample
+    agvTime = sum(dictTime[name]) / numSample
+    print("\t"+name+": "+str(agvCost/agvTime)[:10])
 
 plt.figure(1)
 dfcost.boxplot()
