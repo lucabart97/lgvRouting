@@ -2,6 +2,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <cmath>
+#include <algorithm>
 
 #include "lgvRouting/common/log.h"
 #include "lgvRouting/common/Time.h"

@@ -19,12 +19,14 @@ int main(int argc, char* argv[]) {
     lgv::heuristic::init_methods(hMethod);
     YAML::Node conf = YAML::LoadFile(std::string(LGV_PATH) + "/data/conf.yaml");
 
+    std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
+            "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
+
     if(method == "all"){
         std::vector<std::pair<std::string,std::pair<int,float>>> result;
         if (d.loadInstance(problem, dataset)){
             //init data
-            std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
-            "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
+            
             for_each(methods.begin(), methods.end(), [&](const std::string& s){hMethod[s]->init(conf);});
 
             //Fill result
@@ -44,9 +46,17 @@ int main(int argc, char* argv[]) {
         }
     }else{
         if (d.loadInstance(problem, dataset)){
-            hMethod[method]->init(conf);
-            lgv::data::Solution solution = hMethod[method]->run(&problem);
-            std::cout<<problem<<solution<<std::endl;
+            bool found = false;
+            for_each(methods.begin(), methods.end(), [&](const std::string& s){if (s == method) found = true;});
+            if (found) {
+                hMethod[method]->init(conf);
+                lgv::data::Solution solution = hMethod[method]->run(&problem);
+                std::cout<<problem<<solution<<std::endl;
+            } else {
+                lgvERR("Method not found.");
+                lgvERR("Please use one of the following:");
+                for_each(methods.begin(), methods.end(), [&](const std::string& s){lgvERR("  - "<<s);});
+            }
         }
     }
     
