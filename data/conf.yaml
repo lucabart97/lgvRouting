@@ -69,10 +69,11 @@ MultiStartMultithread:
 #   iterTempDec       iteration to perform before teperature decresing
 #   timeout           timeout in seconds
 SimulatedAnnealing:
+  swap: 2
   initalTemperature: 10
   minTemperature: 0.1
   coolingRate: 0.1
-  iterTempDec: 10000
+  iterTempDec: 1000
   timeout: 100  
 
 # TabuSearch algorithm

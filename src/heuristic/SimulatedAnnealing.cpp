@@ -12,6 +12,7 @@ SimulatedAnnealing::~SimulatedAnnealing(){
 
 bool 
 SimulatedAnnealing::initChild(YAML::Node& aNode){
+    mNumSwap            = lgv::common::YAMLgetConf<int>(aNode["SimulatedAnnealing"], "swap", 2);
     mInitialTemperature = lgv::common::YAMLgetConf<double>(aNode["SimulatedAnnealing"], "initalTemperature", 10);
     mCoolingRate        = lgv::common::YAMLgetConf<double>(aNode["SimulatedAnnealing"], "coolingRate", 0.01);
     mMinTemperature     = lgv::common::YAMLgetConf<double>(aNode["SimulatedAnnealing"], "minTemperature", 1);
@@ -23,11 +24,13 @@ SimulatedAnnealing::initChild(YAML::Node& aNode){
 void 
 SimulatedAnnealing::runChild(){
     //Setting values
-    lgv::data::Solution start, found;
-    mSolution.mCost = 999999;
+    lgv::data::Solution start, found; 
+    start = mSolution = mFinder.FindRandomSolution(*mProblem);
+    mFinder.FillReturnMission(mSolution);
     mTemperature = mInitialTemperature;
     timeStamp_t time = 0;
     std::srand(std::time(nullptr));
+    std::vector<std::pair<int,int>> rnd(mNumSwap);
     
     while(mTemperature > mMinTemperature){
         for(int i = 0;i < mIterTempDec; i++){
@@ -35,19 +38,27 @@ SimulatedAnnealing::runChild(){
 
             //Make swap
             lgv::data::Solution newSol = start;
-            found = newSol = mFinder.FindRandomSolution(*mProblem);
-            mFinder.FillReturnMission(newSol);
+            for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
+                r.first = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
+                r.second = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
+            });
+            for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
+                std::swap(newSol.mSolution[r.first],newSol.mSolution[r.second]);
+                std::swap(newSol.mSolution[r.first].mVeh,newSol.mSolution[r.second].mVeh);
+            });
+            lgv::data::Solution complete = newSol;
+            mFinder.FillReturnMission(complete);
 
-            if(newSol.mCost < mSolution.mCost){
+            if(complete.mCost < mSolution.mCost){
                 //Accept better solution
-                mSolution = newSol;
-                start = found;
+                mSolution = complete;
+                start = newSol;
             }else{
                 //check feasibility
                 double probability = pow(M_E, (start.mCost-found.mCost) / mTemperature);
                 double randProb = std::rand()/(((float)RAND_MAX + 1u)/1.0);
                 if(probability > randProb){
-                    start = found;
+                    start = newSol;
                 }
             }
 

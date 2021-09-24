@@ -13,6 +13,7 @@ namespace lgv { namespace heuristic {
  */
 class SimulatedAnnealing : public Generic{
     private:
+        int    mNumSwap;            //!< number of node swap
         double mTemperature;        //!< actual temperature
         double mInitialTemperature; //!< initial temperature
         double mCoolingRate;        //!< cooling rate of temperature
