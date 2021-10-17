@@ -1,5 +1,5 @@
 #pragma once
-
+#include <random>
 #include "lgvRouting/common/Time.h"
 #include "lgvRouting/data/Location.h"
 
@@ -51,6 +51,21 @@ namespace lgv { namespace data {
                 });
                 mCost = mCost < cost ? cost : mCost;
             });
+        }
+
+        void makeSwap(int n){
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> mission(0, mSolution.size()-1);
+            std::uniform_int_distribution<> lgv(0, mNumberOfVeichles-1);
+            for(int i = 0; i < n; i++){
+                int veh = mission(gen);
+                int newLgv;
+                do{
+                    newLgv = lgv(gen);
+                }while(newLgv == mSolution[veh].mVeh);
+                mSolution[veh].mVeh = newLgv;
+            }
         }
 
         Solution& operator=(const Solution& s){

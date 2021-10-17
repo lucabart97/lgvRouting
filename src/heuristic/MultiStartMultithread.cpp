@@ -26,8 +26,6 @@ void
 MultiStartMultithread::runChild(){
     //Setting values
     mSolution.mCost = 99999999999;
-    std::srand(std::time(nullptr));
-    std::vector<std::pair<int,int>> rnd(mNumSwap);
     timeStamp_t time = 0;
 
     omp_set_num_threads(mThreads);
@@ -39,14 +37,7 @@ MultiStartMultithread::runChild(){
                 mTime.tic();
 
             //Make swap
-            for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-                r.first = std::rand()/(((float)RAND_MAX + 1u)/random.mSolution.size()-1);
-                r.second = std::rand()/(((float)RAND_MAX + 1u)/random.mSolution.size()-1);
-            });
-            for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-                std::swap(random.mSolution[r.first],random.mSolution[r.second]);
-                std::swap(random.mSolution[r.first].mVeh,random.mSolution[r.second].mVeh);
-            });
+            random.makeSwap(mNumSwap);
             lgv::data::Solution complete = random;
             mFinder.FillReturnMission(complete);
 

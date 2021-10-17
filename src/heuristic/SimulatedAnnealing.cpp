@@ -12,7 +12,7 @@ SimulatedAnnealing::~SimulatedAnnealing(){
 
 bool 
 SimulatedAnnealing::initChild(YAML::Node& aNode){
-    mNumSwap            = lgv::common::YAMLgetConf<int>(aNode["SimulatedAnnealing"], "swap", 2);
+    mNumSwap            = 1;
     mInitialTemperature = lgv::common::YAMLgetConf<double>(aNode["SimulatedAnnealing"], "initalTemperature", 10);
     mCoolingRate        = lgv::common::YAMLgetConf<double>(aNode["SimulatedAnnealing"], "coolingRate", 0.01);
     mMinTemperature     = lgv::common::YAMLgetConf<double>(aNode["SimulatedAnnealing"], "minTemperature", 1);
@@ -29,8 +29,6 @@ SimulatedAnnealing::runChild(){
     mFinder.FillReturnMission(mSolution);
     mTemperature = mInitialTemperature;
     timeStamp_t time = 0;
-    std::srand(std::time(nullptr));
-    std::vector<std::pair<int,int>> rnd(mNumSwap);
     
     while(mTemperature > mMinTemperature){
         for(int i = 0;i < mIterTempDec; i++){
@@ -38,14 +36,7 @@ SimulatedAnnealing::runChild(){
 
             //Make swap
             lgv::data::Solution newSol = start;
-            for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-                r.first = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
-                r.second = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
-            });
-            for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-                std::swap(newSol.mSolution[r.first],newSol.mSolution[r.second]);
-                std::swap(newSol.mSolution[r.first].mVeh,newSol.mSolution[r.second].mVeh);
-            });
+            newSol.makeSwap(mNumSwap);
             lgv::data::Solution complete = newSol;
             mFinder.FillReturnMission(complete);
 

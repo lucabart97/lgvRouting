@@ -32,21 +32,12 @@ TabuSearch::runChild(){
 
     //Setting params
     timeStamp_t time = 0;
-    std::srand(std::time(nullptr));
-    std::vector<std::pair<int,int>> rnd(mNumSwap);
     for(int i = 0;i < mIteration; i++){
         mTime.tic();
 
         //Make swap
         lgv::data::Solution newSol = start;
-        for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-            r.first = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
-            r.second = std::rand()/(((float)RAND_MAX + 1u)/newSol.mSolution.size()-1);
-        });
-        for_each(rnd.begin(), rnd.end(), [&](std::pair<int,int>& r){
-            std::swap(newSol.mSolution[r.first],newSol.mSolution[r.second]);
-            std::swap(newSol.mSolution[r.first].mVeh,newSol.mSolution[r.second].mVeh);
-        });
+        newSol.makeSwap(mNumSwap);
 
         if(!isInTabu(newSol)){
             //Check feasibilty of solution founded
@@ -75,10 +66,12 @@ bool
 TabuSearch::isInTabu(lgv::data::Solution &aResult){
     bool found = true;
     for_each(mTabuList.begin(), mTabuList.end(), [&](lgv::data::Solution& s){
-        for(int i = 0 ; i < s.mSolution.size(); i++)
-            if(!(s.mSolution[i].mStart.getId() == aResult.mSolution[i].mStart.getId() && s.mSolution[i].mEnd.getId() == aResult.mSolution[i].mEnd.getId())){
+        for(int i = 0 ; i < s.mSolution.size() && found; i++)
+            //if(!(s.mSolution[i].mStart.getId() == aResult.mSolution[i].mStart.getId() && s.mSolution[i].mEnd.getId() == aResult.mSolution[i].mEnd.getId())){
+            //    found = false;
+            //}
+            if(s.mSolution[i].mVeh != aResult.mSolution[i].mVeh)
                 found = false;
-            }
     });
     if(mTabuList.size() == 0)
         found = false;

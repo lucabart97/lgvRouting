@@ -32,7 +32,7 @@ Log::log(const LogLevel level, const std::string &pretty, const std::string &arg
     // color the name for the terminal
     name = applyColor(name, level);
     
-    std::cout<<name<<msg;
+    std::cerr<<name<<msg;
 };
 
 void 

@@ -32,12 +32,6 @@ dftime = dftime.sort_values(by=dftime.columns[1]).T
 #print(dftime.T.sort_values(dftime.columns[0]))
 
 print("BoxPlot with sample: "+str(numSample),end="\n\n")
-print("Algorithm value:")
-
-for name in names:
-    agvCost = sum(dictCost[name]) / numSample
-    agvTime = sum(dictTime[name]) / numSample
-    print("\t"+name+": "+str(agvCost/(agvTime+1))[:5])
 
 plt.figure(1)
 dfcost.boxplot()
