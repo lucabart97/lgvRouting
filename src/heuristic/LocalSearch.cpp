@@ -3,8 +3,6 @@
 using namespace lgv::heuristic;
 
 LocalSearch::LocalSearch(){
-    mNumSwap = 0;
-    mIteration = 0.0f;
 }
 
 LocalSearch::~LocalSearch(){
@@ -13,8 +11,6 @@ LocalSearch::~LocalSearch(){
 
 bool 
 LocalSearch::initChild(YAML::Node& aNode){
-    mNumSwap    = lgv::common::YAMLgetConf<int>(aNode["LocalSearch"], "swap", 2);
-    mIteration  = lgv::common::YAMLgetConf<uint64_t>(aNode["LocalSearch"], "iteration", 1000);
     mTimeout    = lgv::common::YAMLgetConf<uint64_t>(aNode["LocalSearch"], "timeout", 10) * 1e6;
     return true;
 }
@@ -33,15 +29,23 @@ LocalSearch::runChild(){
         mTime.tic();
 
         //Make swap
-        lgv::data::Solution newSol = start;
-        newSol.makeSwap(mNumSwap);
-        lgv::data::Solution complete = newSol;
-        mFinder.FillReturnMission(complete);
+        lgv::data::Solution best = start;
+        lgv::data::Solution bestResult = mSolution;
+        for(int i = 0; i < 1000; i++){
+            lgv::data::Solution newSol = best;
+            newSol.makeSwap(1);
+            lgv::data::Solution comp = newSol;
+            mFinder.FillReturnMission(comp);
+            if(comp.mCost < bestResult.mCost){
+                best = newSol;
+                bestResult = comp;
+            }
+        }
 
         //Check feasibilty of solution founded
-        if(mSolution.mCost > complete.mCost){
-            mSolution = complete;
-            start = newSol;
+        if(mSolution.mCost > bestResult.mCost){
+            mSolution = bestResult;
+            start = best;
         }else{
             found = false;
         }        
