@@ -4,7 +4,6 @@
 #include "lgvRouting/heuristic/Constructive.h"
 #include "lgvRouting/heuristic/LocalSearch.h"
 #include "lgvRouting/heuristic/MultiStart.h"
-#include "lgvRouting/heuristic/DepthLocalSearch.h"
 #include "lgvRouting/heuristic/TabuSearch.h"
 #include "lgvRouting/heuristic/SimulatedAnnealing.h"
 #include "lgvRouting/heuristic/MultiStartMultithread.h"
@@ -20,7 +19,6 @@ inline void init_methods(Methods& map){
     map["multistart"]               = new lgv::heuristic::MultiStart();
     map["multistartgpu"]            = new lgv::heuristic::MultiStartGpu();
     map["multistartmultithreads"]   = new lgv::heuristic::MultiStartMultithread();
-    map["depthlocalsearch"]         = new lgv::heuristic::DepthLocalSearch();
     map["tabusearch"]               = new lgv::heuristic::TabuSearch();
     map["simulatedannealing"]       = new lgv::heuristic::SimulatedAnnealing();
 }

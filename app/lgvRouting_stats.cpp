@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     lgv::heuristic::init_methods(hMethod);
     YAML::Node conf = YAML::LoadFile(std::string(LGV_PATH) + "/data/conf.yaml");
     std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
-    "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
+    "multistartgpu", "multistartmultithreads", "tabusearch"};
     for_each(methods.begin(), methods.end(), [&](const std::string& s){hMethod[s]->init(conf);});
 
     std::map<std::string, std::pair<int,float>> result;

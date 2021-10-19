@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     YAML::Node conf = YAML::LoadFile(std::string(LGV_PATH) + "/data/conf.yaml");
 
     std::vector<std::string> methods = {"constructive", "localsearch", "multistart", "simulatedannealing",
-            "multistartgpu", "multistartmultithreads", "depthlocalsearch", "tabusearch"};
+            "multistartgpu", "multistartmultithreads", "tabusearch"};
 
     if(method == "all"){
         std::vector<std::pair<std::string,std::pair<int,float>>> result;

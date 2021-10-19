@@ -65,7 +65,6 @@ add_library(heuristic SHARED
     src/heuristic/Generic.cpp
     src/heuristic/LocalSearch.cpp
     src/heuristic/MultiStart.cpp
-    src/heuristic/DepthLocalSearch.cpp
     src/heuristic/TabuSearch.cpp
     src/heuristic/SimulatedAnnealing.cpp
     src/heuristic/MultiStartGpu.cpp
