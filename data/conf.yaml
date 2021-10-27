@@ -11,16 +11,6 @@ Constructive:
 #   iteration   iteration of algorithm
 #   timeout     timeout in seconds
 LocalSearch:
-  timeout: 1000
-
-# DepthLocalSearch algorithm
-#
-#   swap        n arc to swap
-#   iteration   iteration of algorithm
-#   timeout     timeout in seconds
-DepthLocalSearch:
-  swap: 2
-  iteration: 10000
   timeout: 1
 
 # Multistart algorithm
@@ -43,7 +33,7 @@ MultiStart:
 MultistartGpu:
   swap: 4
   iteration: 1000
-  start: 1
+  start: 1000
 
 # MultiStartMultithread algorithm
 #
